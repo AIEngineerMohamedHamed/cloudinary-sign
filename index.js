@@ -17,11 +17,20 @@ app.get("/", (req, res) => {
 
 app.get("/signature", (req, res) => {
   const timestamp = Math.floor(Date.now() / 1000);
+
+  const folder = "market_images";
+
   const signature = cloudinary.v2.utils.api_sign_request(
-    { timestamp },
+    { timestamp, folder },
     process.env.CLOUDINARY_API_SECRET
   );
-  res.json({ timestamp, signature });
+
+  res.json({
+    timestamp,
+    signature,
+    folder,
+  });
 });
+
 
 app.listen(process.env.PORT || 3000);
